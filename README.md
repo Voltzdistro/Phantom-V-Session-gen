@@ -11,8 +11,6 @@
    <a href="https://github.com/Voltzdistro">
     <img src="https://i.imgur.com/woPujRs.jpeg" width="500">
      
-</a>
- <p align="center"><img src="https://profile-counter.glitch.me/{Itxxwasi}/count.svg" alt="xcelsama:: Visitor's Count" /></p>
 
 
 
@@ -30,4 +28,5 @@ Now Deploy
 # `Owner`
 
 <a href="https://github.com/Voltzdistro"> <img src="https://github.com/Voltzdistro.png" width="250" height="250" alt="Voltzdistro - Phantom-V"/> </a>
+
 
