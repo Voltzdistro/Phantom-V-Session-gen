@@ -1,0 +1,788 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Phantom V Session ID Generator</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  
+  <style>
+    /* Reset and Base Styles */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Rajdhani', sans-serif;
+      transition: color 0.3s ease, background-color 0.3s ease, border-color 0.3s ease, transform 0.3s ease;
+    }
+
+    body {
+      background: #0f0f23;
+      color: white;
+      overflow-x: hidden;
+      min-height: 100vh;
+    }
+
+    /* Custom Scrollbar */
+    ::-webkit-scrollbar {
+      width: 8px;
+    }
+
+    ::-webkit-scrollbar-track {
+      background: #1a1a2e;
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: linear-gradient(180deg, #8B5CF6, #00FF9C);
+      border-radius: 4px;
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+      background: linear-gradient(180deg, #00FF9C, #8B5CF6);
+    }
+
+    /* Animated Background Grid */
+    .background-grid {
+      position: fixed;
+      inset: 0;
+      opacity: 0.1;
+      z-index: 0;
+    }
+
+    .gradient-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to bottom right, rgba(139, 92, 246, 0.2), transparent, rgba(0, 255, 156, 0.2));
+    }
+
+    .grid-pattern {
+      position: absolute;
+      inset: 0;
+      background-image: 
+        linear-gradient(rgba(0, 255, 156, 0.1) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0, 255, 156, 0.1) 1px, transparent 1px);
+      background-size: 50px 50px;
+      animation: grid-move 20s linear infinite;
+    }
+
+    @keyframes grid-move {
+      0% { transform: translate(0, 0); }
+      100% { transform: translate(50px, 50px); }
+    }
+
+    /* Main Container */
+    .container {
+      position: relative;
+      z-index: 10;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 2rem 1rem;
+    }
+
+    /* Header Section */
+    .header {
+      text-align: center;
+      margin-bottom: 3rem;
+    }
+
+    .logo-container {
+      margin-bottom: 1rem;
+    }
+
+    .glitch-text {
+      font-family: 'Orbitron', monospace;
+      font-size: clamp(3rem, 8vw, 6rem);
+      font-weight: 900;
+      color: #00FF9C;
+      text-shadow: 
+        0 0 10px #00FF9C,
+        0 0 20px #00FF9C,
+        0 0 30px #00FF9C;
+      animation: neon-flicker 2s infinite alternate;
+      position: relative;
+      display: inline-block;
+      margin-bottom: 0.5rem;
+    }
+
+    @keyframes neon-flicker {
+      0%, 100% {
+        text-shadow: 
+          0 0 10px #00FF9C,
+          0 0 20px #00FF9C,
+          0 0 30px #00FF9C;
+      }
+      50% {
+        text-shadow: 
+          0 0 5px #00FF9C,
+          0 0 10px #00FF9C,
+          0 0 15px #00FF9C;
+      }
+    }
+
+    .glitch-text::before,
+    .glitch-text::after {
+      content: attr(data-text);
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+    }
+
+    .glitch-text::before {
+      animation: glitch-anim-1 0.3s infinite linear alternate-reverse;
+      color: #ff00ff;
+      z-index: -1;
+    }
+
+    .glitch-text::after {
+      animation: glitch-anim-2 0.3s infinite linear alternate-reverse;
+      color: #00ffff;
+      z-index: -2;
+    }
+
+    @keyframes glitch-anim-1 {
+      0% { transform: translate(0); }
+      20% { transform: translate(-2px, 2px); }
+      40% { transform: translate(-2px, -2px); }
+      60% { transform: translate(2px, 2px); }
+      80% { transform: translate(2px, -2px); }
+      100% { transform: translate(0); }
+    }
+
+    @keyframes glitch-anim-2 {
+      0% { transform: translate(0); }
+      20% { transform: translate(2px, -2px); }
+      40% { transform: translate(2px, 2px); }
+      60% { transform: translate(-2px, -2px); }
+      80% { transform: translate(-2px, 2px); }
+      100% { transform: translate(0); }
+    }
+
+    .divider {
+      height: 4px;
+      width: 128px;
+      background: linear-gradient(to right, transparent, #00FF9C, transparent);
+      margin: 0 auto;
+      animation: pulse 2s infinite;
+    }
+
+    .subtitle {
+      font-size: clamp(1.25rem, 3vw, 1.5rem);
+      color: #8B5CF6;
+      font-weight: 300;
+      letter-spacing: 2px;
+      margin-top: 1rem;
+    }
+
+    .description {
+      color: #9CA3AF;
+      margin-top: 1rem;
+      max-width: 28rem;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    /* QR Code Section */
+    .qr-section {
+      display: flex;
+      justify-content: center;
+      margin-bottom: 4rem;
+    }
+
+    .qr-container {
+      position: relative;
+      z-index: 10;
+    }
+
+    .qr-placeholder {
+      width: 280px;
+      height: 280px;
+      background: linear-gradient(145deg, #1a1a2e, #16213e);
+      border: 2px solid #00FF9C;
+      border-radius: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      overflow: hidden;
+      box-shadow: 
+        0 0 30px rgba(0, 255, 156, 0.3),
+        inset 0 0 30px rgba(0, 255, 156, 0.1);
+    }
+
+    .scan-line {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, #00FF9C, transparent);
+      animation: scan 2s infinite;
+    }
+
+    @keyframes scan {
+      0% { transform: translateY(0); }
+      100% { transform: translateY(276px); }
+    }
+
+    .qr-text {
+      text-align: center;
+      color: #00FF9C;
+      font-family: 'Orbitron', monospace;
+      font-size: 0.875rem;
+      font-weight: 600;
+    }
+
+    .qr-glow {
+      position: absolute;
+      inset: -1rem;
+      background: linear-gradient(to right, rgba(139, 92, 246, 0.2), rgba(0, 255, 156, 0.2));
+      border-radius: 1.5rem;
+      filter: blur(2rem);
+      animation: pulse 2s infinite;
+    }
+
+    /* Instructions Section */
+    .instructions {
+      max-width: 48rem;
+      margin: 0 auto 4rem;
+    }
+
+    .instructions-title {
+      font-size: 2rem;
+      font-weight: 600;
+      margin-bottom: 2rem;
+      text-align: center;
+      color: #00FF9C;
+    }
+
+    .instructions-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .instruction-card {
+      background: linear-gradient(145deg, #1a1a2e, #16213e);
+      border: 1px solid #333;
+      border-radius: 12px;
+      padding: 1.5rem;
+      position: relative;
+      transition: all 0.3s ease;
+      overflow: hidden;
+    }
+
+    .instruction-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(0, 255, 156, 0.1), transparent);
+      transition: left 0.5s;
+    }
+
+    .instruction-card:hover::before {
+      left: 100%;
+    }
+
+    .instruction-card:hover {
+      border-color: #00FF9C;
+      box-shadow: 0 5px 20px rgba(0, 255, 156, 0.2);
+      transform: translateY(-5px);
+    }
+
+    .step-number {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 40px;
+      height: 40px;
+      background: linear-gradient(45deg, #8B5CF6, #00FF9C);
+      color: white;
+      border-radius: 50%;
+      font-weight: bold;
+      margin-bottom: 1rem;
+      font-family: 'Orbitron', monospace;
+    }
+
+    .instruction-card h4 {
+      color: #00FF9C;
+      font-size: 1.25rem;
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+    }
+
+    .instruction-card p {
+      color: #9CA3AF;
+      line-height: 1.6;
+    }
+
+    /* Action Buttons */
+    .action-buttons {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 1rem;
+      margin-bottom: 4rem;
+    }
+
+    .cyber-btn {
+      position: relative;
+      padding: 12px 30px;
+      background: transparent;
+      border: 2px solid;
+      border-radius: 8px;
+      font-family: 'Orbitron', monospace;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      transition: all 0.3s ease;
+      cursor: pointer;
+      overflow: hidden;
+      text-decoration: none;
+      display: inline-block;
+    }
+
+    .cyber-btn::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+      transition: left 0.5s;
+    }
+
+    .cyber-btn:hover::before {
+      left: 100%;
+    }
+
+    .cyber-btn.primary {
+      border-color: #00FF9C;
+      color: #00FF9C;
+      background: rgba(0, 255, 156, 0.1);
+    }
+
+    .cyber-btn.primary:hover {
+      background: #00FF9C;
+      color: #0f0f23;
+      box-shadow: 0 0 20px rgba(0, 255, 156, 0.5);
+    }
+
+    .cyber-btn.secondary {
+      border-color: #8B5CF6;
+      color: #8B5CF6;
+      background: rgba(139, 92, 246, 0.1);
+    }
+
+    .cyber-btn.secondary:hover {
+      background: #8B5CF6;
+      color: white;
+      box-shadow: 0 0 20px rgba(139, 92, 246, 0.5);
+    }
+
+    /* Footer */
+    .footer {
+      border-top: 1px solid #374151;
+      padding-top: 2rem;
+    }
+
+    .footer-title {
+      text-align: center;
+      font-size: 1.25rem;
+      font-weight: 600;
+      margin-bottom: 1rem;
+      color: #00FF9C;
+    }
+
+    .social-links {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1rem;
+      max-width: 64rem;
+      margin: 0 auto 2rem;
+    }
+
+    .social-link {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 12px 20px;
+      background: linear-gradient(145deg, #1a1a2e, #16213e);
+      border: 1px solid #333;
+      border-radius: 8px;
+      color: #9CA3AF;
+      transition: all 0.3s ease;
+      cursor: pointer;
+      font-weight: 500;
+      text-decoration: none;
+    }
+
+    .social-link:hover {
+      border-color: #00FF9C;
+      color: #00FF9C;
+      background: rgba(0, 255, 156, 0.1);
+      transform: translateY(-2px);
+      box-shadow: 0 5px 15px rgba(0, 255, 156, 0.2);
+    }
+
+    .social-icon {
+      width: 20px;
+      height: 20px;
+      flex-shrink: 0;
+    }
+
+    .footer-info {
+      text-align: center;
+      color: #6B7280;
+      font-size: 0.875rem;
+    }
+
+    .footer-info p {
+      margin-bottom: 0.25rem;
+    }
+
+    .developer-name {
+      color: #00FF9C;
+      font-weight: 600;
+    }
+
+    /* Responsive Design */
+    @media (max-width: 768px) {
+      .container {
+        padding: 1rem;
+      }
+
+      .qr-placeholder {
+        width: 240px;
+        height: 240px;
+      }
+
+      .scan-line {
+        animation: scan 2s infinite;
+      }
+
+      @keyframes scan {
+        0% { transform: translateY(0); }
+        100% { transform: translateY(236px); }
+      }
+
+      .instruction-card {
+        padding: 1rem;
+      }
+
+      .cyber-btn {
+        padding: 10px 20px;
+        font-size: 0.9rem;
+      }
+
+      .social-link {
+        padding: 10px 15px;
+        font-size: 0.9rem;
+      }
+
+      .social-links {
+        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      }
+    }
+
+    @media (max-width: 480px) {
+      .qr-placeholder {
+        width: 200px;
+        height: 200px;
+      }
+
+      @keyframes scan {
+        0% { transform: translateY(0); }
+        100% { transform: translateY(196px); }
+      }
+
+      .instructions-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Animated Background -->
+  <div class="background-grid">
+    <div class="gradient-overlay"></div>
+    <div class="grid-pattern"></div>
+  </div>
+
+  <!-- Main Content -->
+  <div class="container">
+    
+    <!-- Header Section -->
+    <header class="header">
+      <div class="logo-container">
+        <h1 class="glitch-text" id="glitchText" data-text="Phantom V">Phantom V</h1>
+        <div class="divider"></div>
+      </div>
+      <h2 class="subtitle">Session ID Generator</h2>
+      <p class="description">
+        Scan to connect your WhatsApp account securely
+      </p>
+    </header>
+
+    <!-- QR Code Section -->
+    <section class="qr-section">
+      <div class="qr-container">
+        <div class="qr-placeholder">
+          <div class="scan-line"></div>
+          <div class="qr-text">
+            QR CODE WILL APPEAR HERE
+          </div>
+        </div>
+        <div class="qr-glow"></div>
+      </div>
+    </section>
+
+    <!-- Instructions Section -->
+    <section class="instructions">
+      <h3 class="instructions-title">Connection Protocol</h3>
+      <div class="instructions-grid">
+        <div class="instruction-card">
+          <div class="step-number">01</div>
+          <h4>Open WhatsApp</h4>
+          <p>Launch WhatsApp on your mobile device</p>
+        </div>
+        <div class="instruction-card">
+          <div class="step-number">02</div>
+          <h4>Access Settings</h4>
+          <p>Navigate to Settings → Linked Devices</p>
+        </div>
+        <div class="instruction-card">
+          <div class="step-number">03</div>
+          <h4>Scan QR Code</h4>
+          <p>Tap "Link a Device" and scan the QR code above</p>
+        </div>
+        <div class="instruction-card">
+          <div class="step-number">04</div>
+          <h4>Connection Active</h4>
+          <p>Your Phantom V bot session is now established</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Action Buttons -->
+    <section class="action-buttons">
+      <a href="/wasiqr" class="cyber-btn primary" target="_blank">
+        Generate QR Code
+      </a>
+      <a href="/pair" class="cyber-btn secondary" target="_blank">
+        Pair Code
+      </a>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <h3 class="footer-title">Connect With Phantom V</h3>
+      <div class="social-links">
+        
+        <a href="https://chat.whatsapp.com/I5ZNhSe0lAk2GfYWsFju8s?mode=ac_t" class="social-link" target="_blank">
+          <svg class="social-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+            <circle cx="9" cy="7" r="4"/>
+            <path d="m22 21-3-3m0 0a5.5 5.5 0 1 0-7.78-7.78 5.5 5.5 0 0 0 7.78 7.78Z"/>
+          </svg>
+          <span>Dev GC</span>
+        </a>
+
+        <a href="https://chat.whatsapp.com/Ix6dJDNmrZgLv4eTZhBrcZ?mode=ac_t" class="social-link" target="_blank">
+          <svg class="social-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M3 18v-6a9 9 0 0 1 18 0v6"/>
+            <path d="M21 19a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3zM3 19a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2H3z"/>
+          </svg>
+          <span>Support GC</span>
+        </a>
+
+        <a href="https://chat.whatsapp.com/K2Y3CLptcPu0hoYWHb22NI?mode=ac_t" class="social-link" target="_blank">
+          <svg class="social-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+          </svg>
+          <span>Content GC</span>
+        </a>
+
+        <a href="https://whatsapp.com/channel/0029VbAPIwXBPzjOXTJoLD0M" class="social-link" target="_blank">
+          <svg class="social-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="2"/>
+            <path d="M16.24 7.76a6 6 0 0 1 0 8.49m-8.48-.01a6 6 0 0 1 0-8.49m11.31-2.82a10 10 0 0 1 0 14.14m-14.14 0a10 10 0 0 1 0-14.14"/>
+          </svg>
+          <span>Channel</span>
+        </a>
+
+        <a href="https://github.com/Voltzdistro/" class="social-link" target="_blank">
+          <svg class="social-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4"/>
+            <path d="M9 18c-4.51 2-5-2-7-2"/>
+          </svg>
+          <span>GitHub</span>
+        </a>
+
+        <a href="https://www.youtube.com/channel/UCUTuzzPqaFpdlyQ1DtMuZQQ" class="social-link" target="_blank">
+          <svg class="social-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M22.54 6.42a2.78 2.78 0 0 0-1.94-2C18.88 4 12 4 12 4s-6.88 0-8.6.46a2.78 2.78 0 0 0-1.94 2A29 29 0 0 0 1 11.75a29 29 0 0 0 .46 5.33A2.78 2.78 0 0 0 3.4 19c1.72.46 8.6.46 8.6.46s6.88 0 8.6-.46a2.78 2.78 0 0 0 1.94-2 29 29 0 0 0 .46-5.25 29 29 0 0 0-.46-5.33z"/>
+            <polygon points="9.75,15.02 15.5,11.75 9.75,8.48"/>
+          </svg>
+          <span>YouTube</span>
+        </a>
+
+      </div>
+      
+      <div class="footer-info">
+        <p>© 2024 Phantom V • Developed by <span class="developer-name">Voltzdistro</span></p>
+        <p>Secure • Fast • Reliable</p>
+      </div>
+    </footer>
+
+  </div>
+
+  <script>
+    // Glitch Text Animation
+    function initGlitchAnimation() {
+      const glitchText = document.getElementById('glitchText');
+      const glitchChars = '!<>-_\\/[]{}—=+*^?#________';
+      const originalText = 'Phantom V';
+      let isGlitching = false;
+
+      function createGlitch() {
+        if (isGlitching) return;
+        isGlitching = true;
+        
+        let iterations = 0;
+        const interval = setInterval(() => {
+          const newText = originalText
+            .split('')
+            .map((char, index) => {
+              if (index < iterations) {
+                return originalText[index];
+              }
+              return glitchChars[Math.floor(Math.random() * glitchChars.length)];
+            })
+            .join('');
+          
+          glitchText.textContent = newText;
+          glitchText.setAttribute('data-text', newText);
+
+          if (iterations >= originalText.length) {
+            clearInterval(interval);
+            isGlitching = false;
+          }
+
+          iterations += 1 / 3;
+        }, 30);
+      }
+
+      // Initial glitch after page load
+      setTimeout(createGlitch, 1000);
+      
+      // Periodic glitch effect
+      setInterval(createGlitch, 4000);
+    }
+
+    // Smooth scroll for internal links
+    function initSmoothScroll() {
+      document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function (e) {
+          e.preventDefault();
+          const target = document.querySelector(this.getAttribute('href'));
+          if (target) {
+            target.scrollIntoView({
+              behavior: 'smooth',
+              block: 'start'
+            });
+          }
+        });
+      });
+    }
+
+    // Add loading animation to buttons
+    function initButtonAnimations() {
+      const buttons = document.querySelectorAll('.cyber-btn, .social-link');
+      
+      buttons.forEach(button => {
+        button.addEventListener('click', function(e) {
+          // Add click effect
+          this.style.transform = 'scale(0.98)';
+          this.style.filter = 'brightness(0.7)';
+          
+          setTimeout(() => {
+            this.style.transform = '';
+            this.style.filter = '';
+          }, 150);
+        });
+      });
+    }
+
+    // Intersection Observer for animations
+    function initScrollAnimations() {
+      const observerOptions = {
+        threshold: 0.1,
+        rootMargin: '0px 0px -50px 0px'
+      };
+
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.style.opacity = '1';
+            entry.target.style.transform = 'translateY(0)';
+          }
+        });
+      }, observerOptions);
+
+      // Observe instruction cards
+      document.querySelectorAll('.instruction-card').forEach((card, index) => {
+        card.style.opacity = '0';
+        card.style.transform = 'translateY(20px)';
+        card.style.transition = `opacity 0.6s ease ${index * 0.1}s, transform 0.6s ease ${index * 0.1}s`;
+        observer.observe(card);
+      });
+    }
+
+    // Initialize all functionality when DOM is loaded
+    document.addEventListener('DOMContentLoaded', function() {
+      initGlitchAnimation();
+      initSmoothScroll();
+      initButtonAnimations();
+      initScrollAnimations();
+      
+      // Add some interactive feedback
+      console.log('🚀 Phantom V Session Generator loaded successfully!');
+      console.log('💚 Developed by Voltzdistro');
+    });
+
+    // Handle visibility change to pause/resume animations when tab is not active
+    document.addEventListener('visibilitychange', function() {
+      const animations = document.querySelectorAll('.grid-pattern, .scan-line, .divider');
+      
+      if (document.hidden) {
+        animations.forEach(el => {
+          el.style.animationPlayState = 'paused';
+        });
+      } else {
+        animations.forEach(el => {
+          el.style.animationPlayState = 'running';
+        });
+      }
+    });
+
+    // Add keyboard navigation support
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Tab') {
+        document.body.classList.add('keyboard-navigation');
+      }
+    });
+
+    document.addEventListener('mousedown', function() {
+      document.body.classList.remove('keyboard-navigation');
+    });
+  </script>
+</body>
+</html>
