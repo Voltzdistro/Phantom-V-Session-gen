@@ -1,216 +1,282 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Pair Code</title>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-  <style>
-    body {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
-      margin: 0;
-      background: black;
-      font-family: Arial, sans-serif;
-    }
+rem;
+            }
 
-    .container {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-    }
+            .main-card {
+                padding: 20px;
+                margin: 20px 0;
+            }
 
-    .box {
-      width: 300px;
-      height: 320px;
-      padding: 20px;
-      position: relative;
-      text-align: center;
-      background-color: rgb(0, 0, 0);
-      border-radius: 10px;
-      transform: perspective(1000px) rotateY(0deg);
-      box-shadow: 0 0 20px rgba(250, 249, 249, 0.7);
-      position: relative;
-    }
+            .input-container {
+                flex-direction: column;
+            }
 
-    #text {
-      color: #f6f5f5;
-    }
+            .phone-input, .submit-btn {
+                width: 100%;
+            }
 
-    .input-container input {
-      color: #f1eaea;
-    }
+            .protocol-grid {
+                grid-template-columns: 1fr;
+            }
 
-    .centered-text {
-      color: #e9e4e4;
-    }
+            .action-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
 
-    .input-container {
-      display: flex;
-      background: rgb(10, 10, 10);
-      border-radius: 1rem;
-      background: black;
-      box-shadow: black;
-      padding: 0.3rem;
-      gap: 0.3rem;
-      max-width: 300px;
-      width: 100%;
-    }
+            .social-links {
+                flex-direction: column;
+                gap: 15px;
+            }
+        }
 
-    .input-container input {
-      border-radius: 0.8rem 0 0 0.8rem;
-      background: #e8e8e8;
-      box-shadow: inset 13px 13px 10px #dcdcdc, inset -13px -13px 10px #f4f4f4;
-      width: 100%;
-      flex-basis: 75%;
-      padding: 1rem;
-      border: none;
-      border-left: 2px solid #ecf2f8;
-      color: #000000;
-      transition: all 0.2s ease-in-out;
-    }
+        @media (max-width: 480px) {
+            .logo {
+                font-size: 2rem;
+            }
 
-    .input-container input:focus {
-      border-left: 2px solid #ecf1f6;
-      outline: none;
-      box-shadow: inset 13px 13px 10px #f0f2f3, inset -13px -13px 10px #f4f4f4;
-    }
+            .main-card {
+                padding: 15px;
+            }
 
-    .input-container button {
-      flex-basis: 15%;
-      padding: 1rem;
-      background: #5935ac;
-      font-weight: 700;
-      letter-spacing: 0.3rem;
-      text-transform: uppercase;
-      color: white;
-      border: none;
-      width: 90%;
-      border-radius: 0 1rem 1rem 0;
-      transition: all 0.2s ease-in-out;
-    }
-
-    .input-container button:hover {
-      background: linear-gradient(135deg, #c01736 0%, #8b17b6 100%);
-    }
-
-    @media (max-width: 500px) {
-      .input-container {
-        flex-direction: column;
-      }
-
-      .input-container input {
-        border-radius: 0.8rem;
-      }
-
-      .input-container button {
-        padding: 0.4rem;
-        border-radius: 0.8rem;
-      }
-    }
-
-    .centered-text {
-      text-align: center;
-    }
-
-    @media (max-width: 500px) {
-      .box {
-        width: 90%; 
-      }
-    }
-
-    @media (max-width: 500px) {
-      .input-container input {
-        border-radius: 0.8rem;
-        width: 80%; 
-      }
-
-      .input-container button {
-        padding: 1rem;
-        border-radius: 0.9rem;
-        width: 100%; 
-      }
-    }
-  </style>
+            .code-value {
+                font-size: 1.5rem;
+                letter-spacing: 2px;
+            }
+        }
+    </style>
 </head>
 <body>
-  <div class="container">
-    <div class="main">
-      <div class="box" id="box">
-        <div id="text">
-          <i class="fa fa-user"></i>
-          <p>
-            <h3 class="centered-text">UCHIHA PAIRING CODE</h3>
-            <br>
-            <h6>Made By VOLTZDISTRO .Inc</h6>
-            <h6>Enter Your Number with Country Code.</h6>
-            <div class="input-container">
-              <input placeholder="xxxxxxxxxxx" type="number" id="number" placeholder="Enter your Phone Pumber with Cuntry Code" name="">
-              <button id="submit">Submit</button>
-            </div>
-            
-            <a id="waiting-message" class="centered-text" style="display: none;">Please wait a while</a>
-            <br>
-            <br>
-            <main id="pair"></main>
-          </p>
+    <div class="container">
+        <div class="header">
+            <h1 class="logo">Phantom V</h1>
+            <p class="subtitle">Session ID Generator</p>
+            <p class="description">Scan to connect your WhatsApp account securely</p>
         </div>
-      </div>
+
+        <div class="main-card">
+            <div class="card-content">
+                <div class="input-section">
+                    <h3 style="color: #00ffff; margin-bottom: 20px;">QR CODE WILL APPEAR HERE</h3>
+                    
+                    <div class="input-container">
+                        <input 
+                            type="tel" 
+                            id="phoneNumber" 
+                            class="phone-input" 
+                            placeholder="Enter your phone number with country code"
+                            maxlength="15"
+                        >
+                        <button id="submitBtn" class="submit-btn">Submit</button>
+                    </div>
+                </div>
+
+                <div class="result-section" id="resultSection">
+                    <!-- Results will appear here -->
+                </div>
+            </div>
+        </div>
+
+        <div class="protocol-section">
+            <h2 class="protocol-title">Connection Protocol</h2>
+            
+            <div class="protocol-grid">
+                <div class="protocol-card">
+                    <div class="protocol-icon">
+                        <i class="fab fa-whatsapp"></i>
+                    </div>
+                    <h3>Open WhatsApp</h3>
+                    <p>Launch WhatsApp on your mobile device</p>
+                </div>
+
+                <div class="protocol-card">
+                    <div class="protocol-icon">
+                        <i class="fas fa-cog"></i>
+                    </div>
+                    <h3>Access Settings</h3>
+                    <p>Navigate to Settings → Linked Devices</p>
+                </div>
+
+                <div class="protocol-card">
+                    <div class="protocol-icon">
+                        <i class="fas fa-qrcode"></i>
+                    </div>
+                    <h3>Scan QR Code</h3>
+                    <p>Tap "Link a Device" and scan the QR code above</p>
+                </div>
+
+                <div class="protocol-card">
+                    <div class="protocol-icon">
+                        <i class="fas fa-check-circle"></i>
+                    </div>
+                    <h3>Connection Active</h3>
+                    <p>Your Phantom V bot session is now established</p>
+                </div>
+            </div>
+
+            <div class="action-buttons">
+                <button class="action-btn generate-btn" onclick="generateCode()">GENERATE QR CODE</button>
+                <button class="action-btn pair-btn" onclick="pairCode()">PAIR CODE</button>
+            </div>
+        </div>
+
+        <div class="footer">
+            <h3 class="footer-title">Connect With Phantom V</h3>
+            <div class="social-links">
+                <a href="https://github.com/Voltzdistro/" class="social-link" target="_blank">
+                    <i class="fab fa-github"></i>
+                    <span>GitHub</span>
+                </a>
+                <a href="https://www.youtube.com/channel/UCUTuzzPqaFpdlyQ1DtMuZQQ" class="social-link" target="_blank">
+                    <i class="fab fa-youtube"></i>
+                    <span>YouTube</span>
+                </a>
+                <a href="https://chat.whatsapp.com/I5ZNhSe0lAk2GfYWsFju8s" class="social-link" target="_blank">
+                    <i class="fab fa-whatsapp"></i>
+                    <span>Dev Circle</span>
+                </a>
+                <a href="https://chat.whatsapp.com/Ix6dJDNmrZgLv4eTZhBrcZ" class="social-link" target="_blank">
+                    <i class="fas fa-life-ring"></i>
+                    <span>Support</span>
+                </a>
+                <a href="https://chat.whatsapp.com/K2Y3CLptcPu0hoYWHb22NI" class="social-link" target="_blank">
+                    <i class="fas fa-users"></i>
+                    <span>Content</span>
+                </a>
+                <a href="https://whatsapp.com/channel/0029VbAPIwXBPzjOXTJoLD0M" class="social-link" target="_blank">
+                    <i class="fas fa-broadcast-tower"></i>
+                    <span>Channel</span>
+                </a>
+            </div>
+        </div>
     </div>
-  </div>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.0.0-alpha.1/axios.min.js"></script>
-  <script>
-    let a = document.getElementById("pair");
-    let b = document.getElementById("submit");
-    let c = document.getElementById("number");
-    let box = document.getElementById("box");
 
-    async function Copy() {
-      let text = document.getElementById("copy").innerText;
-      let obj = document.getElementById("copy");
-      await navigator.clipboard.writeText(obj.innerText.replace('CODE: ', ''));
-      obj.innerText = "COPIED";
-      obj.style = "color:blue;font-weight:bold";
-      obj.size = "5";
-      setTimeout(() => {
-        obj.innerText = text;
-        obj.style = "color:white;font-weight-bold";
-        obj.size = "5";
-      }, 500);
-    }
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.6.0/axios.min.js"></script>
+    <script>
+        const phoneInput = document.getElementById('phoneNumber');
+        const submitBtn = document.getElementById('submitBtn');
+        const resultSection = document.getElementById('resultSection');
 
-    b.addEventListener("click", async (e) => {
-      e.preventDefault();
-      if (!c.value) {
-        a.innerHTML = '<a style="color:white;font-weight:bold">Enter your WhatsApp number with Country Code</a><br><br>';
-      } else if (c.value.replace(/[^0-9]/g, "").length < 11) {
-        a.innerHTML = '<a style="color:red;font-weight:bold">Invalid Number</a><br><br>';
-      } else {
-        const Wasi_Tech = c.value.replace(/[^0-9]/g, "");
-        let bb = "";
-        let bbc = "";
-        const cc = Wasi_Tech.split('');
-        cc.map(a => {
-          bbc += a;
-          if (bbc.length == 3) {
-            bb += " " + a;
-          } else if (bbc.length == 8) {
-            bb += " " + a;
-          } else {
-            bb += a;
-          }
+        // Copy to clipboard function
+        async function copyToClipboard(text) {
+            try {
+                await navigator.clipboard.writeText(text.replace('CODE: ', ''));
+                showMessage('Code copied to clipboard!', 'success');
+            } catch (err) {
+                console.error('Failed to copy text: ', err);
+                showMessage('Failed to copy code', 'error');
+            }
+        }
+
+        // Show message function
+        function showMessage(message, type = 'info') {
+            const messageClass = type === 'error' ? 'error-message' : 
+                               type === 'success' ? 'success-message' : '';
+            
+            resultSection.innerHTML = `<div class="${messageClass}">${message}</div>`;
+            
+            if (type === 'success') {
+                setTimeout(() => {
+                    resultSection.innerHTML = '';
+                }, 3000);
+            }
+        }
+
+        // Format phone number
+        function formatPhoneNumber(number) {
+            const cleanNumber = number.replace(/[^0-9]/g, "");
+            let formatted = "";
+            let temp = "";
+            const digits = cleanNumber.split('');
+            
+            digits.forEach(digit => {
+                temp += digit;
+                if (temp.length === 3) {
+                    formatted += " " + digit;
+                } else if (temp.length === 8) {
+                    formatted += " " + digit;
+                } else {
+                    formatted += digit;
+                }
+            });
+            
+            return "+" + formatted;
+        }
+
+        // Submit button event listener
+        submitBtn.addEventListener('click', async (e) => {
+            e.preventDefault();
+            
+            const phoneNumber = phoneInput.value.trim();
+            
+            if (!phoneNumber) {
+                showMessage('Enter your WhatsApp number with Country Code', 'error');
+                return;
+            }
+            
+            const cleanNumber = phoneNumber.replace(/[^0-9]/g, "");
+            
+            if (cleanNumber.length < 11) {
+                showMessage('Invalid Number', 'error');
+                return;
+            }
+
+            // Format and display the number
+            const formattedNumber = formatPhoneNumber(phoneNumber);
+            phoneInput.value = formattedNumber;
+            phoneInput.style.color = '#00ffff';
+            phoneInput.style.fontSize = '18px';
+            
+            // Show loading message
+            resultSection.innerHTML = '<div class="waiting-message">Please Wait...</div>';
+            
+            try {
+                // Make API call
+                const response = await axios.get(`/code?number=${cleanNumber}`);
+                const code = response.data.code || "Service Unavailable";
+                
+                // Display the code
+                resultSection.innerHTML = `
+                    <div class="code-result" onclick="copyToClipboard('${code}')">
+                        <div class="code-label">CODE:</div>
+                        <div class="code-value">${code}</div>
+                        <div class="copy-hint">Click to copy</div>
+                    </div>
+                `;
+                
+            } catch (error) {
+                console.error('Error fetching code:', error);
+                showMessage('Service Unavailable', 'error');
+            }
         });
-        c.type = "text";
-        c.value = "+" + bb;
-        c.style = "color:black;font-size:20px";
-        a.innerHTML = '<a style="color:white;font-weight:bold">Please Wait...</a><br><br>';
-        let { data } = await axios(`/code?number=${Wasi_Tech}`);
-        let code = data.code || "Service Unavailable";
-        a.innerHTML = '<font id="copy" onclick="Copy()" style="color:red;font-weight:bold" size="5">CODE: <span style="color:white;font-weight:bold">' + code + '</span></font><br><br><br>';
-      }
-    });
-  </script>
+
+        // Enter key support
+        phoneInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                submitBtn.click();
+            }
+        });
+
+        // Generate QR Code function
+        function generateCode() {
+            showMessage('QR Code generation feature coming soon!', 'info');
+        }
+
+        // Pair Code function
+        function pairCode() {
+            phoneInput.focus();
+            showMessage('Enter your phone number above to get pairing code', 'info');
+        }
+
+        // Input validation
+        phoneInput.addEventListener('input', (e) => {
+            let value = e.target.value.replace(/[^0-9+\s]/g, '');
+            e.target.value = value;
+        });
+
+        // Auto-focus on phone input
+        window.addEventListener('load', () => {
+            phoneInput.focus();
+        });
+    </script>
 </body>
 </html>
