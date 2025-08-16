@@ -69,7 +69,7 @@ ______________________________________
 ╔═════◇  
 ║  『••• 𝗩𝗶𝘀𝗶𝘁 𝗙𝗼𝗿 𝗛𝗲𝗹𝗽 •••』  
 ║❒ *YouTube:* _https://www.youtube.com/channel/UCUTuzzPqaFpdlyQ1DtMuZQQ_  
-║❒ *Owner:* _https://wa.me/2349066528353_  
+║❒ *Owner:* _https://wa.me/2347081427486_  
 ║❒ *Repo:* _https://github.com/Voltzdistro/_  
 ║❒ *Dev Group:* _https://chat.whatsapp.com/I5ZNhSe0lAk2GfYWsFju8s?mode=ac_t_  
 ║❒ *Support Group:* _https://chat.whatsapp.com/Ix6dJDNmrZgLv4eTZhBrcZ?mode=ac_t_  
